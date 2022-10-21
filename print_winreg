@@ -1,0 +1,19 @@
+import winreg
+def print_winreg():
+    key_str = [r'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall']
+    for i in key_str:
+        regurl = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,i)
+        key_conut= winreg.QueryInfoKey(regurl)[0]
+        #print(key_conut) #输出有多少键
+        for j in range(key_conut):
+            #kye_name = winreg.EnumKey(regurl,j))
+            try:
+                each_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,f'{i}\\{winreg.EnumKey(regurl,j)}')
+                DisplayName = winreg.QueryValueEx(each_key,'DisplayName')[0]
+                if DisplayName == 'GRIS':
+                    print(DisplayName)
+            except WindowsError:
+                pass
+
+if __name__ == '__main__':
+    print_winreg()
